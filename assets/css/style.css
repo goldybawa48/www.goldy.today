@@ -430,7 +430,7 @@ section {
 }
 
 /*--------------------------------------------------------------
-# Akills
+# Skills
 --------------------------------------------------------------*/
 .skills .progress {
   height: 60px;
@@ -465,6 +465,48 @@ section {
   transition: 0.9s;
   background-color: #149ddd;
 }
+
+/*--------------------------------------------------------------
+# Projects
+--------------------------------------------------------------*/
+
+.portfolio-item {
+  margin-bottom: 30px;
+  transition: transform 0.3s; /* Smooth transition */
+}
+
+.portfolio-item:hover {
+  transform: scale(1.05); /* Zoom effect on hover */
+}
+
+.portfolio-wrap {
+  background-color: #f8f9fa; /* Light background for each project */
+  padding: 20px;
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.portfolio-info h4 {
+  font-size: 1.2em; /* Consistent heading size */
+  margin-bottom: 10px;
+  font-weight: bold; /* Bold headings */
+}
+
+.portfolio-info p {
+  font-size: 0.9em; /* Consistent paragraph size */
+}
+
+.dot {
+  height: 8px; /* Adjust the size as needed */
+  width: 8px; /* Adjust the size as needed */
+  background-color: black; /* Change to your desired color */
+  border-radius: 50%; /* Make it round */
+  display: inline-block;
+  margin-right: 5px; /* Spacing between dot and text */
+  vertical-align: middle; /* Align dot with text */
+}
+
+
 
 /*--------------------------------------------------------------
 # Resume
@@ -918,6 +960,23 @@ section {
   color: #fff;
 }
 
+/* Updated to ensure equal height for both contact details and form */
+.contact .row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.contact .col-lg-6 {
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+}
+
+.contact .info, 
+.contact .php-email-form {
+  flex-grow: 1;
+}
+
 .contact .php-email-form {
   width: 100%;
   padding: 30px;
@@ -1023,6 +1082,7 @@ section {
     transform: rotate(360deg);
   }
 }
+
 
 /*--------------------------------------------------------------
 # Breadcrumbs

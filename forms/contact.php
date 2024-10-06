@@ -1,41 +1,80 @@
 <?php
-  /**
-  * Requires the "PHP Email Form" library
-  * The "PHP Email Form" library is available only in the pro version of the template
-  * The library should be uploaded to: vendor/php-email-form/php-email-form.php
-  * For more info and help: https://bootstrapmade.com/php-email-form/
-  */
+// Enable error reporting for debugging
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
-  // Replace contact@example.com with your real receiving email address
-  $receiving_email_address = 'contact@example.com';
+// Include PHPMailer classes
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
-  if( file_exists($php_email_form = '../assets/vendor/php-email-form/php-email-form.php' )) {
-    include( $php_email_form );
-  } else {
-    die( 'Unable to load the "PHP Email Form" Library!');
-  }
+// Load Composer's autoloader or require the necessary files directly
+require '../PHP-mailer/Exception.php';
+require '../PHP-mailer/PHPMailer.php';
+require '../PHP-mailer/SMTP.php';
 
-  $contact = new PHP_Email_Form;
-  $contact->ajax = true;
-  
-  $contact->to = $receiving_email_address;
-  $contact->from_name = $_POST['name'];
-  $contact->from_email = $_POST['email'];
-  $contact->subject = $_POST['subject'];
+// Set response header for JSON
+header('Content-Type: application/json');
 
-  // Uncomment below code if you want to use SMTP to send emails. You need to enter your correct SMTP credentials
-  /*
-  $contact->smtp = array(
-    'host' => 'example.com',
-    'username' => 'example',
-    'password' => 'pass',
-    'port' => '587'
-  );
-  */
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Check if the required fields are set
+    if (isset($_POST['name'], $_POST['email'], $_POST['subject'], $_POST['message'])) {
+        
+        // Collect and sanitize form data
+        $name = trim($_POST['name']);
+        $email = trim($_POST['email']);
+        $subject = trim($_POST['subject']);
+        $message = trim($_POST['message']);
 
-  $contact->add_message( $_POST['name'], 'From');
-  $contact->add_message( $_POST['email'], 'Email');
-  $contact->add_message( $_POST['message'], 'Message', 10);
+        // Validate email address
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            echo json_encode(['status' => 'error', 'message' => 'Invalid email format.']);
+            exit; // Stop further execution
+        }
 
-  echo $contact->send();
-?>
+        // Create an instance of PHPMailer
+        $mail = new PHPMailer(true);
+
+        try {
+            // Server settings
+            $mail->isSMTP();                                      // Send using SMTP
+            $mail->Host = 'smtp.gmail.com';                     // Set the SMTP server to send through
+            $mail->SMTPAuth = true;                               // Enable SMTP authentication
+            $mail->Username = 'deebawa48@gmail.com';           // SMTP username (replace with your email)
+            $mail->Password = 'xmjh azdm gfzi dxju';              // SMTP password
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;   // Enable TLS encryption
+            $mail->Port = 587;                                    // TCP port to connect to
+
+            // Recipients
+            $mail->setFrom($email, $name);                        // Sender
+            $mail->addAddress('deebawa48@gmail.com');             // Add your email (replace this)
+
+            // Content
+            $mail->isHTML(true);                                  // Set email format to HTML
+            $mail->Subject = $subject;
+            $mail->Body    = "Name: $name<br>Email: $email<br>Message:<br>$message";
+
+            // Send the email
+            $mail->send();
+            header('Content-Type: application/json');
+            http_response_code(200); // Explicitly set the status code
+            echo json_encode(['status' => 'success', 'message' => 'Your message has been sent. Thank you!']);
+            exit; // Stop further execution after success
+            
+            exit; // Stop further execution after success
+        } catch (Exception $e) {
+          header('Content-Type: application/json');
+          http_response_code(500); // Set a server error status code
+          echo json_encode(['status' => 'error', 'message' => "Message could not be sent. Mailer Error: {$mail->ErrorInfo}"]);
+          exit; // Stop further execution after error
+        }
+    } else {
+        // Missing form fields
+        echo json_encode(['status' => 'error', 'message' => 'All fields are required.']);
+        exit; // Stop further execution after error
+    }
+} else {
+    // Redirect to the contact form if the request method is not POST
+    header("Location: ../index.html");
+    exit();
+}
