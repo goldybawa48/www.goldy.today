@@ -41,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $mail->Host = 'smtp.gmail.com';                     // Set the SMTP server to send through
             $mail->SMTPAuth = true;                               // Enable SMTP authentication
             $mail->Username = 'deebawa48@gmail.com';           // SMTP username (replace with your email)
-            $mail->Password = 'xmjh azdm gfzi dxju';              // SMTP password
+            $mail->Password = ${PASSWORD};              // SMTP password
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;   // Enable TLS encryption
             $mail->Port = 587;                                    // TCP port to connect to
 
@@ -61,7 +61,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo json_encode(['status' => 'success', 'message' => 'Your message has been sent. Thank you!']);
             exit; // Stop further execution after success
             
-            exit; // Stop further execution after success
         } catch (Exception $e) {
           header('Content-Type: application/json');
           http_response_code(500); // Set a server error status code
