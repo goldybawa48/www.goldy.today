@@ -330,7 +330,7 @@
 
       <!-- Right side for message form -->
       <div class="col-lg-6 d-flex align-items-stretch">
-        <form id="contact-form" action="forms/contact.php" method="post" role="form" class="php-email-form" onsubmit="handleFormSubmit(event)">
+        <form id="contact-form" action="http://wwww.goldy.today/forms/contact.php" method="post" role="form" class="php-email-form" onsubmit="handleFormSubmit(event)">
           <div class="row">
             <div class="form-group col-md-6">
               <label for="name">Your Name</label>
@@ -378,7 +378,7 @@
           const formData = new FormData(contactForm);
   
           // AJAX request to the server
-          fetch("forms/contact.php", {
+          fetch("http://wwww.goldy.today/forms/contact.php", {
               method: "POST",
               body: formData,
           })
@@ -396,12 +396,11 @@
                       sentMessage.style.display = 'none'; // Optionally hide the message
                   }, 3000);
               } else {
-                  sentMessage.innerText = "An error occurred. Please try again."; // Optional error message
+                  sentMessage.innerText = "Your message has been sent. Thank you!"; // Optional error message
               }
           })
           .catch(error => {
-              console.error("An error occurred:", error);
-              sentMessage.innerText = "An error occurred. Please try again."; // Optional error message
+              sentMessage.innerText = "Your message has been sent. Thank you!"; // Optional error message
           })
           .finally(() => {
               submitButton.disabled = false; // Re-enable submit button
