@@ -56,10 +56,11 @@ jobs:
 
       - name: Commit and push updated tag.txt
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Use the default GitHub Actions token
         run: |
-          git config --local user.email "deebawa48@gmain"
+          git config --local user.email "deebawa48@gmail.com"  # Corrected email
           git config --local user.name "goldybawa48"
           git add tag.txt
           git commit -m "Update image tag to $NEW_TAG"
-          git push https://x-access-token:${GITHUB_TOKEN}@github.com/goldybawa48/www.goldy.today.git
+          git push https://x-access-token:${GITHUB_TOKEN}@github.com/goldybawa48/www.goldy.today.git main
+      
