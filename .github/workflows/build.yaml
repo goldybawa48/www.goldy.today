@@ -49,15 +49,17 @@ jobs:
       - name: Increment tag and save
         run: |
           CURRENT_TAG=${{ env.TAG }}
-          NEW_TAG=$(printf "%02d" $((10#$CURRENT_TAG + 1)))  
+          NEW_TAG=$(printf "%02d" $((10#$CURRENT_TAG + 1)))  # Increment and format with leading zero
           echo $NEW_TAG > tag.txt
           echo "New image tag is $NEW_TAG"
           echo "NEW_TAG=$NEW_TAG" >> $GITHUB_ENV
 
       - name: Commit and push updated tag.txt
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}  
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add tag.txt
-          git commit -m "update image tag to $NEW_TAG"
-          git push
+          git commit -m "Update image tag to $NEW_TAG"
+          git push https://${TOKEN_GITHUB}@github.com/${{ REPO_GITHUB }} 
