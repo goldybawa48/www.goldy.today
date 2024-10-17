@@ -37,13 +37,13 @@ jobs:
       - name: Build Docker image
         run: |
           IMAGE_NAME=${{ secrets.ECR_NAME }}
-          IMAGE_TAG="liberty:${{ env.TAG }}"
+          IMAGE_TAG="${{ env.TAG }}"
           docker build -t $IMAGE_NAME:$IMAGE_TAG .
 
       - name: Push Docker image to ECR
         run: |
           IMAGE_NAME=${{ secrets.ECR_NAME }}
-          IMAGE_TAG="liberty:${{ env.TAG }}"
+          IMAGE_TAG="${{ env.TAG }}"
           docker push $IMAGE_NAME:$IMAGE_TAG
 
       - name: Increment tag and save
