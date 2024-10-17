@@ -20,44 +20,44 @@ jobs:
           mask-password: false
           skip-logout: false
         env:
-          AWS_REGION: ${{ secrets.AWS_REGION }}  # Set the AWS region here
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}  # Ensure these secrets are set
+          AWS_REGION: ${{ secrets.AWS_REGION }}  
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }} 
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-      # - name: Read current image tag
-      #   id: read_tag
-      #   run: |
-      #     if [ ! -f tag.txt ]; then
-      #       echo "01" > tag.txt  # Initialize if file doesn't exist
-      #     fi
-      #     TAG=$(cat tag.txt)
-      #     echo "Current image tag is $TAG"
-      #     echo "TAG=$TAG" >> $GITHUB_ENV
+      - name: Read current image tag
+        id: read_tag
+        run: |
+          if [ ! -f tag.txt ]; then
+            echo "01" > tag.txt  
+          fi
+          TAG=$(cat tag.txt)
+          echo "Current image tag is $TAG"
+          echo "TAG=$TAG" >> $GITHUB_ENV
 
-      # - name: Build Docker image
-      #   run: |
-      #     IMAGE_NAME=${{ secrets.ECR_REPOSITORY }}
-      #     IMAGE_TAG="image:${{ env.TAG }}"
-      #     docker build -t $IMAGE_NAME:$IMAGE_TAG .
+      - name: Build Docker image
+        run: |
+          IMAGE_NAME=${{ secrets.ECR_NAME }}
+          IMAGE_TAG="liberty:${{ env.TAG }}"
+          docker build -t $IMAGE_NAME:$IMAGE_TAG .
 
-      # - name: Push Docker image to ECR
-      #   run: |
-      #     IMAGE_NAME=${{ secrets.ECR_REPOSITORY }}
-      #     IMAGE_TAG="image:${{ env.TAG }}"
-      #     docker push $IMAGE_NAME:$IMAGE_TAG
+      - name: Push Docker image to ECR
+        run: |
+          IMAGE_NAME=${{ secrets.ECR_NAME }}
+          IMAGE_TAG="liberty:${{ env.TAG }}"
+          docker push $IMAGE_NAME:$IMAGE_TAG
 
-      # - name: Increment tag and save
-      #   run: |
-      #     CURRENT_TAG=${{ env.TAG }}
-      #     NEW_TAG=$(printf "%02d" $((10#$CURRENT_TAG + 1)))  # Increment and format with leading zero
-      #     echo $NEW_TAG > tag.txt
-      #     echo "New image tag is $NEW_TAG"
-      #     echo "NEW_TAG=$NEW_TAG" >> $GITHUB_ENV
+      - name: Increment tag and save
+        run: |
+          CURRENT_TAG=${{ env.TAG }}
+          NEW_TAG=$(printf "%02d" $((10#$CURRENT_TAG + 1)))  
+          echo $NEW_TAG > tag.txt
+          echo "New image tag is $NEW_TAG"
+          echo "NEW_TAG=$NEW_TAG" >> $GITHUB_ENV
 
-      # - name: Commit and push updated tag.txt
-      #   run: |
-      #     git config --local user.email "action@github.com"
-      #     git config --local user.name "GitHub Action"
-      #     git add tag.txt
-      #     git commit -m "Update image tag to $NEW_TAG"
-      #     git push
+      - name: Commit and push updated tag.txt
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add tag.txt
+          git commit -m "Update image tag to $NEW_TAG"
+          git push
