@@ -59,5 +59,5 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add tag.txt
-          git commit -m "Update image tag to $NEW_TAG"
+          git commit -m "update image tag to $NEW_TAG"
           git push
