@@ -56,12 +56,10 @@ jobs:
 
       - name: Commit and push updated tag.txt
         env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}  
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
         run: |
           git config --local user.email "deebawa48@gmain"
           git config --local user.name "goldybawa48"
           git add tag.txt
           git commit -m "Update image tag to $NEW_TAG"
-          git remote rm origin
-          git remote add origin https://localhost@github.com/goldybawa48/www.goldy.today.git
-          git push https://x-access-token:${TOKEN_GITHUB}@github.com/goldybawa48/www.goldy.today.git
+          git push https://x-access-token:${GITHUB_TOKEN}@github.com/goldybawa48/www.goldy.today.git
