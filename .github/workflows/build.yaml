@@ -15,8 +15,9 @@ jobs:
 
       - name: Log in to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v1
-        run: |
-          ${{ secrets.AWS_ECR_LOGIN }}
+        with:
+          registry-type: private
+          region: ${{ secrets.AWS_REGION }}
 
       - name: Read current image tag
         id: read_tag
