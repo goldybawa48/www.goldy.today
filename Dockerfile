@@ -8,4 +8,4 @@ RUN echo "ServerName localhost" >> /usr/local/apache2/conf/httpd.conf
 COPY . /usr/local/apache2/htdocs/
 
 # Expose port 80 to access the web server
-EXPOSE 80 90
+EXPOSE 80
